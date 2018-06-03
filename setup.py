@@ -15,7 +15,7 @@ setup(
     author_email='czyznikiewicz.mateusz@gmail.com',
     url='https://github.com/czyzi0/mlp',
     license='MIT',
-    keywords='machine-learning multilayer-perceptron',
+    keywords='machine-learning multilayer-perceptron numpy',
     packages=find_packages(),
     python_requires='>=3.6.0',
     install_requires=['numpy>=1.14.0']
