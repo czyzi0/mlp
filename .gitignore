@@ -1,5 +1,5 @@
 # Project specific files
-example/Iris/data/iris.data
+example/iris/data/iris.data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
