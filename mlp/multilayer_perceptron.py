@@ -12,7 +12,7 @@ import numpy as np
 
 from .activation import _ACTIVATION_DICT
 from .metrics import _METRICS_DICT
-from .utils import chunked, unison_shuffle, progress_bar
+from .utils import chunked, progress_bar, unison_shuffle
 
 
 class MultilayerPerceptron:
