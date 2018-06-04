@@ -99,8 +99,8 @@ def test_one_hot(x, expected_y):
         ]
     ),
 ])
-def test__chunked(array, chunk_size, expected_chunks):
-    chunks = list(utils._chunked(array, chunk_size=chunk_size))
+def test_chunked(array, chunk_size, expected_chunks):
+    chunks = list(utils.chunked(array, chunk_size=chunk_size))
     for expected_chunk, chunk in zip(expected_chunks, chunks):
         assert np.allclose(expected_chunk, chunk)
 
@@ -112,19 +112,36 @@ def test__chunked(array, chunk_size, expected_chunks):
     ((1500, 12)),
     ((60000, 768)),
 ])
-def test__unison_shuffle(array_shape):
+def test_unison_shuffle(array_shape):
     array1 = np.arange(array_shape[0] * array_shape[1]).reshape(array_shape)
     array2 = np.arange(array_shape[0] * array_shape[1]).reshape(array_shape)
 
-    array1, array2 = utils._unison_shuffle(array1, array2)
+    array1, array2 = utils.unison_shuffle(array1, array2)
 
     assert np.allclose(array1, array2)
 
 
-@pytest.mark.parametrize('iterable', [
-    (list(range(100))),
-    (np.arange(1500)),
+@pytest.mark.parametrize('iterable, total, verbose', [
+    (list(range(100)), None, False),
+    (list(range(100)), None, True),
+    (np.arange(1500), None, False),
+    (range(300), 300, False),
+    (range(300), 300, False),
+    (list(range(50)), None, True),
 ])
-def test__progress_bar(iterable):
-    for item1, item2 in zip(iterable, utils._progress_bar(iterable, verbose=False)):
+def test_progress_bar(iterable, total, verbose):
+    for item1, item2 in zip(iterable, utils.progress_bar(iterable, total=total, verbose=verbose)):
+        assert item1 == item2
+
+
+@pytest.mark.parametrize('iterable, message, verbose', [
+    (list(range(100)), '', False),
+    (list(range(100)), '', True),
+    (np.arange(1500), '', False),
+    (range(300), 'Testing: ', False),
+    (range(300), 'Testing: ', False),
+    (list(range(50)), 'Testing: ', True),
+])
+def test_spinner(iterable, message, verbose):
+    for item1, item2 in zip(iterable, utils.spinner(iterable, message=message, verbose=verbose)):
         assert item1 == item2

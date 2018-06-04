@@ -3,6 +3,7 @@
 """
 
 import sys
+import time
 from typing import Any, Generator, Iterable, Optional, Tuple
 
 import numpy as np
@@ -30,7 +31,7 @@ def one_hot(x: np.ndarray) -> np.ndarray:
     return y
 
 
-def _chunked(array: np.ndarray, chunk_size: int) -> Generator[np.ndarray, None, None]:
+def chunked(array: np.ndarray, chunk_size: int) -> Generator[np.ndarray, None, None]:
     """Break array into chunks of length chunk_size.
 
     Args:
@@ -45,7 +46,7 @@ def _chunked(array: np.ndarray, chunk_size: int) -> Generator[np.ndarray, None, 
         yield array[i:i + chunk_size]
 
 
-def _unison_shuffle(array1: np.ndarray, array2: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+def unison_shuffle(array1: np.ndarray, array2: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     """Shuffle two arrays in unison.
 
     Args:
@@ -60,7 +61,7 @@ def _unison_shuffle(array1: np.ndarray, array2: np.ndarray) -> Tuple[np.ndarray,
     return array1[permutation], array2[permutation]
 
 
-def _progress_bar(
+def progress_bar(
         iterable: Iterable[Any],
         total: Optional[int] = None,
         step: int = 1,
@@ -81,27 +82,49 @@ def _progress_bar(
         Consecutive values from given iterable.
 
     """
-    state = 0
-
-    if total is None:
-        total = len(iterable)
-
-    def _format_bar():
-        """Create bar of proper width.
-
-        Returns:
-            Formatted bar.
-
-        """
-        # pylint: disable=blacklisted-name
-        bar_length = int(n_cols * state / total)
-        bar = '=' * bar_length + '.' * (n_cols - bar_length)
-        return bar
+    if verbose:
+        state = 0
+        if total is None:
+            total = len(iterable)
 
     for item in iterable:
         yield item
         if verbose:
             state = min(state + step, total)
-            print(f'\r{state}/{total} [{_format_bar()}]', file=sys.stderr, end='')
+            bar_length = int(n_cols * state / total)
+            # pylint: disable=blacklisted-name
+            bar = '=' * bar_length + '.' * (n_cols - bar_length)
+            print(f'\r{state}/{total} [{bar}]', file=sys.stderr, end='')
+
     if verbose:
         print(file=sys.stderr)
+
+
+def spinner(
+        iterable: Iterable[Any],
+        message: str = '',
+        verbose: bool = True
+    ) -> Generator[Any, None, None]:
+    """Wrap given iterable and print spinner.
+
+    Args:
+        iterable: Iterable to wrap.
+        message: Message to print before spinner.
+        verbose: If set False wrapper won't print anything.
+
+    Yields:
+        Consecutive values from given iterable.
+
+    """
+    if verbose:
+        markers = '|/-\\'
+        print(f'{message} ', file=sys.stderr, end='')
+
+    for item in iterable:
+        yield item
+        if verbose:
+            current_marker = int(10 * time.time()) % len(markers)
+            print(f'\b{markers[current_marker]}', file=sys.stderr, end='')
+
+    if verbose:
+        print('\bdone', file=sys.stderr)

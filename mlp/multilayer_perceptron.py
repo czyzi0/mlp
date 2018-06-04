@@ -12,7 +12,7 @@ import numpy as np
 
 from .activation import _ACTIVATION_DICT
 from .metrics import _METRICS_DICT
-from .utils import _chunked, _unison_shuffle, _progress_bar
+from .utils import chunked, unison_shuffle, progress_bar
 
 
 class MultilayerPerceptron:
@@ -198,11 +198,11 @@ class MultilayerPerceptron:
                 print(f'Epoch {epoch_index+1}/{epochs}')
 
             if shuffle:
-                train_x, train_y = _unison_shuffle(train_x, train_y)
+                train_x, train_y = unison_shuffle(train_x, train_y)
 
             # Train batches
-            for batch_x, batch_y in _progress_bar(
-                    zip(_chunked(train_x, batch_size), _chunked(train_y, batch_size)),
+            for batch_x, batch_y in progress_bar(
+                    zip(chunked(train_x, batch_size), chunked(train_y, batch_size)),
                     total=len(train_x),
                     step=batch_size,
                     verbose=verbose
