@@ -1,0 +1,8 @@
+name: mlp
+dependencies:
+  - python>=3.6.0
+  - numpy>=1.14.0
+  - requests
+  - pylint
+  - pytest
+  - pytest-cov
