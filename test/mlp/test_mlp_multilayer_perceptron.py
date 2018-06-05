@@ -7,6 +7,39 @@ from mlp.metrics import _METRICS_DICT
 
 class TestMultilayerPerceptron:
 
+    @pytest.mark.parametrize('inputs, units, activations, expected_model_summary', [
+        (
+            5, [3, 2], None,
+            (
+                '_______________________________________________________________\n'
+                'inputs               units(outputs)       activation           \n'
+                '===============================================================\n'
+                '5                    3                    sigmoid              \n'
+                '_______________________________________________________________\n'
+                '3                    2                    sigmoid              \n'
+                '_______________________________________________________________'
+            ),
+        ),
+        (
+            87, [16, 11, 3], ['relu', 'softplus', 'identity'],
+            (
+                '_______________________________________________________________\n'
+                'inputs               units(outputs)       activation           \n'
+                '===============================================================\n'
+                '87                   16                   relu                 \n'
+                '_______________________________________________________________\n'
+                '16                   11                   softplus             \n'
+                '_______________________________________________________________\n'
+                '11                   3                    identity             \n'
+                '_______________________________________________________________'
+            ),
+        ),
+    ])
+    def test_model_summary(self, inputs, units, activations, expected_model_summary):
+        multilayer_perceptron = MultilayerPerceptron(inputs=inputs, units=units, activations=activations)
+        model_summary = multilayer_perceptron.__str__()
+        assert expected_model_summary == model_summary
+
     @pytest.mark.parametrize('inputs, units, activations, vecs_num', [
         (4, [3,], ['relu',], 15),
         (5, [3, 2, 10], None, 13),

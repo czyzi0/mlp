@@ -40,6 +40,18 @@ class MultilayerPerceptron:
             'layers': [np.random.rand(units_num, inputs_num + 1) * 2 - 1 for units_num, inputs_num in layer_shapes],
         }
 
+    def __str__(self) -> str:
+        """Create model summary in form of string.
+
+        Returns:
+            Model summary in form of string.
+
+        """
+        text = f'{"_"*63}\n{"inputs":<21}{"units(outputs)":<21}{"activation":<21}\n{"="*63}'
+        for layer, activation in zip(self._model['layers'], self._model['activations']):
+            text += f'\n{layer.shape[1]-1:<21}{layer.shape[0]:<21}{activation._name:<21}\n{"_"*63}'
+        return text
+
     def evaluate(self, x: np.ndarray, y_true: np.ndarray, metrics_name: str) -> float:
         """Evaluate estimator.
 
