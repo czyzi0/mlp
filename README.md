@@ -33,14 +33,14 @@ optional arguments:
                         path to file to save trained model in
 ```
 
-To evaluate existing model type:
+To evaluate existing model:
 ```bash
 conda activate mlp
 python iris_example.py -i models/iris_model.json
 conda deactivate
 ```
 
-To train new model type:
+To train new model:
 ```bash
 conda activate mlp
 python iris_example.py -o models/iris_model_2.json
