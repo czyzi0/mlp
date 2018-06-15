@@ -16,6 +16,37 @@ These instructions will help you get a copy of the project up and running. First
   conda deactivate
   ```
 
+## Examples
+
+### Iris
+First example uses Iris dataset (available [here](https://archive.ics.uci.edu/ml/datasets/iris)). Here is manual for this example:
+```
+usage: iris_example.py [-h] (-i INPUT_MODEL_PATH | -o OUTPUT_MODEL_PATH)
+
+Train new model or evaluate existing model on Iris data.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT_MODEL_PATH, --input-model-path INPUT_MODEL_PATH
+                        path to the model to be tested
+  -o OUTPUT_MODEL_PATH, --output-model-path OUTPUT_MODEL_PATH
+                        path to file to save trained model in
+```
+
+To evaluate existing model type:
+```bash
+conda activate mlp
+python iris_example.py -i models/iris_model.json
+conda deactivate
+```
+
+To train new model type:
+```bash
+conda activate mlp
+python iris_example.py -o models/iris_model_2.json
+conda deactivate
+```
+
 ## Development
 
 ### Guide

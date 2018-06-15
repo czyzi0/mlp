@@ -34,7 +34,7 @@ def parse_args(args: List[str]) -> argparse.Namespace:
         Parsed arguments.
 
     """
-    parser = argparse.ArgumentParser(description='Train new model or test existing model on Iris data.')
+    parser = argparse.ArgumentParser(description='Train new model or evaluate existing model on Iris data.')
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-i', '--input-model-path', type=pathlib.Path, help='path to the model to be tested')
