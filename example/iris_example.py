@@ -5,8 +5,7 @@
 import argparse
 import csv
 import pathlib
-import sys
-from typing import List, Tuple
+from typing import Tuple
 
 import numpy as np
 import requests
@@ -14,21 +13,8 @@ import requests
 import mlp
 
 
-IRIS_URL = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
-IRIS_FILE_PATH = pathlib.Path(__file__).parent / 'data' / 'iris.data'
-
-NAME2VEC = {
-    'Iris-setosa': [1.0, 0.0, 0.0],
-    'Iris-versicolor': [0.0, 1.0, 0.0],
-    'Iris-virginica': [0.0, 0.0, 1.0],
-}
-
-
-def parse_args(args: List[str]) -> argparse.Namespace:
+def parse_args() -> argparse.Namespace:
     """Parse arguments.
-
-    Args:
-        args: List of arguments given to script.
 
     Returns:
         Parsed arguments.
@@ -40,33 +26,41 @@ def parse_args(args: List[str]) -> argparse.Namespace:
     group.add_argument('-i', '--input-model-path', type=pathlib.Path, help='path to the model to be tested')
     group.add_argument('-o', '--output-model-path', type=pathlib.Path, help='path to file to save trained model in')
 
-    return parser.parse_args(args)
+    return parser.parse_args()
 
 
-def download_iris(file_path: pathlib.Path) -> None:
+def download_iris(file_path) -> None:
     """Download Iris data.
 
     Args:
-        file_path: Path to file in which data will be saved.
+        file_path: File path to which data is saved.
 
     """
-    response = requests.get(IRIS_URL, stream=True)
-    with open(file_path, 'wb') as iris_file:
-        for data_chunk in mlp.utils.spinner(response.iter_content(), message='Downloading Iris data: '):
-            iris_file.write(data_chunk)
+    # pylint: disable=no-member
+    if not file_path.exists():
+        response = requests.get('https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data', stream=True)
+        with open(file_path, 'wb') as iris_file:
+            for data_chunk in mlp.utils.spinner(response.iter_content(), message='Downloading Iris data: '):
+                iris_file.write(data_chunk)
 
 
-def load_iris(file_path: pathlib.Path) -> Tuple[np.ndarray, np.ndarray]:
+def load_iris(file_path) -> Tuple[np.ndarray, np.ndarray]:
     """Load Iris data.
 
     Args:
-        file_path: Path to file from which data will be loaded.
+        file_path: Path to data file.
 
     Returns:
         Two numpy arrays one with inputs(x) and one with expected outputs(y).
         Array shapes are (n, 4) and (n, 3).
 
     """
+    NAME2VEC = {
+        'Iris-setosa': [1.0, 0.0, 0.0],
+        'Iris-versicolor': [0.0, 1.0, 0.0],
+        'Iris-virginica': [0.0, 0.0, 1.0],
+    }
+
     with open(file_path, 'r') as file:
         reader = csv.reader(file, delimiter=',')
         x, y = [], []
@@ -78,19 +72,16 @@ def load_iris(file_path: pathlib.Path) -> Tuple[np.ndarray, np.ndarray]:
     return x, y
 
 
-def main(args: List[str]) -> None:
+def main() -> None:
     """Run example
 
-    Args:
-        args: List of arguments given to script.
-
     """
-    args = parse_args(args)
+    args = parse_args()
+
+    IRIS_FILE_PATH = pathlib.Path(__file__).parent / 'data' / 'iris.data'
 
     # Download data
-    # pylint: disable=no-member
-    if not IRIS_FILE_PATH.exists():
-        download_iris(IRIS_FILE_PATH)
+    download_iris(IRIS_FILE_PATH)
 
     # Load data
     x, y = load_iris(IRIS_FILE_PATH)
@@ -145,4 +136,4 @@ def main(args: List[str]) -> None:
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()

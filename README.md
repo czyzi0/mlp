@@ -36,14 +36,14 @@ optional arguments:
 To evaluate existing model:
 ```bash
 conda activate mlp
-python iris_example.py -i models/iris_model.json
+python iris_example.py -i models/iris-model.json
 conda deactivate
 ```
 
 To train new model:
 ```bash
 conda activate mlp
-python iris_example.py -o models/iris_model_2.json
+python iris_example.py -o models/my-iris-model.json
 conda deactivate
 ```
 
@@ -66,5 +66,5 @@ pytest --cov=mlp/
 ### Code analysis
 Code analysis is performed with __Pylint__. To run it type:
 ```bash
-pylint mlp/
+pylint mlp/ example/
 ```

@@ -1,5 +1,6 @@
 # Project specific files
-example/data/iris.data
+example/data/*
+!example/data/.gitkeep
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
