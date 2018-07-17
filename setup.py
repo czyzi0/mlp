@@ -8,7 +8,7 @@ with open(pathlib.Path(__file__).parent / 'README.md', 'r') as long_desc_file:
 
 setup(
     name='mlp',
-    version='0.0.0',
+    version='1.0.0',
     description='Multilayer perceptron implemented using NumPy with usage examples',
     long_description=LONG_DESCRIPTION,
     author='czyzi0',

@@ -120,7 +120,7 @@ class MultilayerPerceptron:
         # Put vectors into numpy arrays and set flag for validation
         train_x = np.array(train_x, ndmin=2)
         train_y = np.array(train_y, ndmin=2)
-        validation = validation_x and validation_y
+        validation = validation_x is not None and validation_y is not None
         if validation:
             validation_x = np.array(validation_x, ndmin=2)
             validation_y = np.array(validation_y, ndmin=2)
@@ -183,7 +183,7 @@ class MultilayerPerceptron:
             if validation:
                 print(
                     f'duration: {duration:.2f}s - train_{metrics_name}: {train_metrics:.4f} '
-                    f'- validation_{metrics}: {validation_metrics:.4f}',
+                    f'- validation_{metrics_name}: {validation_metrics:.4f}',
                     end=''
                 )
             else:

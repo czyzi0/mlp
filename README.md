@@ -8,7 +8,7 @@ These instructions will help you get a copy of the project up and running. First
   ```bash
   python setup.py install
   ```
-- if you want to run examples/develop package, type:
+- if you want to run examples/develop package, install dependencies from `environment.yml` and install package in developer mode. For example you do that using `conda`:
   ```bash
   conda env create -f environment.yml
   conda activate mlp
@@ -19,7 +19,7 @@ These instructions will help you get a copy of the project up and running. First
 ## Examples
 
 ### Iris
-First example uses Iris dataset (available [here](https://archive.ics.uci.edu/ml/datasets/iris)). Here is manual for this example:
+First example uses Iris data set (available [here](https://archive.ics.uci.edu/ml/datasets/iris)). Here is manual for this example:
 ```
 usage: iris_example.py [-h] (-i INPUT_MODEL_PATH | -o OUTPUT_MODEL_PATH)
 
@@ -28,23 +28,44 @@ Train new model or evaluate existing model on Iris data.
 optional arguments:
   -h, --help            show this help message and exit
   -i INPUT_MODEL_PATH, --input-model-path INPUT_MODEL_PATH
-                        path to the model to be tested
+                        path to the model to be evaluated
   -o OUTPUT_MODEL_PATH, --output-model-path OUTPUT_MODEL_PATH
                         path to file to save trained model in
 ```
 
 To evaluate existing model:
 ```bash
-conda activate mlp
 python iris_example.py -i models/iris-model.json
-conda deactivate
 ```
 
 To train new model:
 ```bash
-conda activate mlp
 python iris_example.py -o models/my-iris-model.json
-conda deactivate
+```
+
+### MNIST
+Second example uses MNIST data set (available [here](http://yann.lecun.com/exdb/mnist/)). Here is manual for this example:
+```
+usage: mnist_example.py [-h] (-i INPUT_MODEL_PATH | -o OUTPUT_MODEL_PATH)
+
+Train new model or evaluate existing model on MNIST data.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT_MODEL_PATH, --input-model-path INPUT_MODEL_PATH
+                        path to the model to be evaluated
+  -o OUTPUT_MODEL_PATH, --output-model-path OUTPUT_MODEL_PATH
+                        path to file to save trained model in
+```
+
+To evaluate existing model:
+```bash
+python mnist_example.py -i models/mnist-model.json
+```
+
+To train new model:
+```bash
+python mnist_example.py -o models/my-mnist-model.json
 ```
 
 ## Development

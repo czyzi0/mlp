@@ -13,6 +13,10 @@ import requests
 import mlp
 
 
+URL = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+IRIS_FILE_PATH = pathlib.Path(__file__).parent / 'data' / 'iris.data'
+
+
 def parse_args() -> argparse.Namespace:
     """Parse arguments.
 
@@ -23,35 +27,29 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description='Train new model or evaluate existing model on Iris data.')
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-i', '--input-model-path', type=pathlib.Path, help='path to the model to be tested')
+    group.add_argument('-i', '--input-model-path', type=pathlib.Path, help='path to the model to be evaluated')
     group.add_argument('-o', '--output-model-path', type=pathlib.Path, help='path to file to save trained model in')
 
     return parser.parse_args()
 
 
-def download_iris(file_path) -> None:
+def download_iris() -> None:
     """Download Iris data.
-
-    Args:
-        file_path: File path to which data is saved.
 
     """
     # pylint: disable=no-member
-    if not file_path.exists():
-        response = requests.get('https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data', stream=True)
-        with open(file_path, 'wb') as iris_file:
+    if not IRIS_FILE_PATH.exists():
+        response = requests.get(URL, stream=True)
+        with open(IRIS_FILE_PATH, 'wb') as iris_file:
             for data_chunk in mlp.utils.spinner(response.iter_content(), message='Downloading Iris data: '):
                 iris_file.write(data_chunk)
 
 
-def load_iris(file_path) -> Tuple[np.ndarray, np.ndarray]:
+def load_iris() -> Tuple[np.ndarray, np.ndarray]:
     """Load Iris data.
 
-    Args:
-        file_path: Path to data file.
-
     Returns:
-        Two numpy arrays one with inputs(x) and one with expected outputs(y).
+        Two numpy arrays one with inputs (x) and one with expected outputs (y).
         Array shapes are (n, 4) and (n, 3).
 
     """
@@ -61,14 +59,14 @@ def load_iris(file_path) -> Tuple[np.ndarray, np.ndarray]:
         'Iris-virginica': [0.0, 0.0, 1.0],
     }
 
-    with open(file_path, 'r') as file:
+    with open(IRIS_FILE_PATH, 'r') as file:
         reader = csv.reader(file, delimiter=',')
         x, y = [], []
         for row in mlp.utils.spinner((row for row in reader if row), message='Loading Iris data: '):
             x.append([float(number) for number in row[:4]])
             y.append(NAME2VEC[row[4]])
-        x = np.array(x)
-        y = np.array(y)
+    x = np.array(x)
+    y = np.array(y)
     return x, y
 
 
@@ -78,15 +76,13 @@ def main() -> None:
     """
     args = parse_args()
 
-    IRIS_FILE_PATH = pathlib.Path(__file__).parent / 'data' / 'iris.data'
-
     # Download data
-    download_iris(IRIS_FILE_PATH)
+    download_iris()
 
     # Load data
-    x, y = load_iris(IRIS_FILE_PATH)
+    x, y = load_iris()
 
-    # Split data into train and test set
+    # Split data into train and test sets
     train_x = np.vstack([x[0:40], x[50:90], x[100:140]])
     train_y = np.vstack([y[0:40], y[50:90], y[100:140]])
     test_x = np.vstack([x[40:50], x[90:100], x[140:150]])
@@ -100,9 +96,9 @@ def main() -> None:
         estimator = mlp.MultilayerPerceptron(inputs=4, units=[5, 3])
     print(f'Model summary:\n{estimator}\n')
 
-    # Train estimator if is new
+    # Train estimator if it is new
     if args.output_model_path:
-        print(f'Training:')
+        print('Training:')
         estimator.train(
             train_x,
             train_y,
