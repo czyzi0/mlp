@@ -5,7 +5,7 @@
 import argparse
 import gzip
 import pathlib
-from typing import Iterable, List, Tuple
+from typing import List, Tuple
 
 import numpy as np
 import requests
@@ -40,11 +40,10 @@ def parse_args() -> argparse.Namespace:
 
 
 def download_mnist() -> None:
-    """Download MNIST data.loading mnist data wrong magic numbe
-
-    Args: 
+    """Download MNIST data.
 
     """
+    # pylint: disable=no-member
     if not all([(MNIST_DIR_PATH / file_name).exists() for file_name in FILE_NAMES]):
         for file_name in FILE_NAMES:
             response = requests.get(URL + file_name, stream=True)
@@ -60,8 +59,8 @@ def load_mnist() -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Load MNIST data.
 
     Returns:
-        Two numpy arrays one with inputs (x) and one with expected outputs (y).
-        Array shapes are (n, 784) and (n, 10).
+        Four numpy arrays - inputs (x) and outputs (y) - for train and test
+        sets. Array shapes are (n, 784) and (n, 10).
 
     """
 
@@ -105,7 +104,7 @@ def load_mnist() -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     return train_x, train_y, test_x, test_y
 
 def main() -> None:
-    """
+    """Run example.
 
     """
     args = parse_args()

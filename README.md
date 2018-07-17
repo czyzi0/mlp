@@ -4,11 +4,11 @@ Multilayer perceptron implemented using NumPy with usage examples.
 ## Setup
 These instructions will help you get a copy of the project up and running. First clone repository then:
 
-- if you want to just use package, type:
+- if you want to just use package, then install it with:
   ```bash
   python setup.py install
   ```
-- if you want to run examples/develop package, install dependencies from `environment.yml` and install package in developer mode. For example you do that using `conda`:
+- if you want to run examples/develop package, install dependencies from `environment.yml` and install package in developer mode. You can do that using `conda`:
   ```bash
   conda env create -f environment.yml
   conda activate mlp

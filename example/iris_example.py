@@ -71,7 +71,7 @@ def load_iris() -> Tuple[np.ndarray, np.ndarray]:
 
 
 def main() -> None:
-    """Run example
+    """Run example.
 
     """
     args = parse_args()
