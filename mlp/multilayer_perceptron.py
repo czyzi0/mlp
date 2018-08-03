@@ -30,7 +30,7 @@ class MultilayerPerceptron:
 
     """
 
-    def __init__(self, inputs: int, units: List[int], activations: Optional[List[str]] = None):
+    def __init__(self, inputs: int, units: List[int], activations: Optional[List[str]] = None) -> None:
         if not activations:
             activations = ['sigmoid' for _ in range(len(units))]
         layer_shapes = zip((inputs, *units)[1:], (inputs, *units)[:-1])
