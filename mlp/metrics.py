@@ -38,7 +38,8 @@ def _binary_accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> Tuple[float, flo
         means better score).
 
     """
-    correct_num = sum(np.allclose(v_pred, v_true) for v_pred, v_true in zip(np.round(y_pred), y_true))
+    correct_num = sum(
+        np.allclose(v_pred, v_true) for v_pred, v_true in zip(np.round(y_pred), y_true))
     binary_acc = correct_num / len(y_pred)
     return binary_acc, binary_acc
 _binary_accuracy._name = 'binary_accuracy'
@@ -73,7 +74,8 @@ def _categorical_accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> Tuple[float
         (greater means better score).
 
     """
-    correct_num = sum(np.allclose(v_pred, v_true) for v_pred, v_true in zip(one_hot(y_pred), y_true))
+    correct_num = sum(
+        np.allclose(v_pred, v_true) for v_pred, v_true in zip(one_hot(y_pred), y_true))
     categorical_acc = correct_num / len(y_pred)
     return categorical_acc, categorical_acc
 _categorical_accuracy._name = 'categorical_accuracy'

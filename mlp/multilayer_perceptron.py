@@ -30,14 +30,19 @@ class MultilayerPerceptron:
 
     """
 
-    def __init__(self, inputs: int, units: List[int], activations: Optional[List[str]] = None) -> None:
+    def __init__(
+            self, inputs: int, units: List[int], activations: Optional[List[str]] = None
+        ) -> None:
         if not activations:
             activations = ['sigmoid' for _ in range(len(units))]
         layer_shapes = zip((inputs, *units)[1:], (inputs, *units)[:-1])
 
         self._model = {
             'activations': [_ACTIVATION_DICT[activation_name] for activation_name in activations],
-            'layers': [np.random.rand(units_num, inputs_num + 1) * 2 - 1 for units_num, inputs_num in layer_shapes],
+            'layers': [
+                np.random.rand(units_num, inputs_num + 1) * 2 - 1
+                for units_num, inputs_num in layer_shapes
+            ],
         }
 
     def __str__(self) -> str:
@@ -116,7 +121,7 @@ class MultilayerPerceptron:
             verbose: Flag for training verbosity.
 
         """
-        # pylint: disable=too-many-arguments,too-many-locals,unused-variable
+        # pylint: disable=too-many-arguments,too-many-locals,too-many-statements,unused-variable
         # Put vectors into numpy arrays and set flag for validation
         train_x = np.array(train_x, ndmin=2)
         train_y = np.array(train_y, ndmin=2)
@@ -139,13 +144,16 @@ class MultilayerPerceptron:
             # Feedforward
             layer_args = [self._bias_extend(batch_x)]
             activation_args = []
-            for index, (layer, activation) in enumerate(zip(self._model['layers'], self._model['activations'])):
+            for index, (layer, activation) in enumerate(
+                    zip(self._model['layers'], self._model['activations'])
+                ):
                 activation_args.append(np.matmul(layer, layer_args[index].T).T)
                 layer_args.append(self._bias_extend(activation(activation_args[index])))
             batch_y_pred = self._bias_reduce(layer_args.pop())
             # Backpropagate
             last_activation = self._model['activations'][-1]
-            errors = [(batch_y_pred - batch_y_true) * last_activation(activation_args.pop(), derivative=True)]
+            errors = [(batch_y_pred - batch_y_true) * last_activation(
+                activation_args.pop(), derivative=True)]
             for index, (layer, activation) in enumerate(zip(
                     reversed(self._model['layers']),
                     reversed(self._model['activations'][:-1])
@@ -174,7 +182,8 @@ class MultilayerPerceptron:
 
             train_metrics, comparison_metrics = metrics(self.predict(train_x), train_y)
             if validation:
-                validation_metrics, comparison_metrics = metrics(self.predict(validation_x), validation_y)
+                validation_metrics, comparison_metrics = metrics(
+                    self.predict(validation_x), validation_y)
 
         def _print_results() -> None:
             """Print epoch results.
@@ -263,7 +272,10 @@ class MultilayerPerceptron:
             model = json.loads(model_file.read())
             multilayer_perceptron = MultilayerPerceptron(inputs=1, units=[1,])
             multilayer_perceptron._model = {
-                'activations': [_ACTIVATION_DICT[activation_name] for activation_name in model['activations']],
+                'activations': [
+                    _ACTIVATION_DICT[activation_name]
+                    for activation_name in model['activations']
+                ],
                 'layers': [np.array(layer, ndmin=2) for layer in model['layers']],
             }
             return multilayer_perceptron

@@ -30,11 +30,18 @@ def parse_args() -> argparse.Namespace:
         Parsed arguments.
 
     """
-    parser = argparse.ArgumentParser(description='Train new model or evaluate existing model on MNIST data.')
+    parser = argparse.ArgumentParser(
+        description='Train new model or evaluate existing model on MNIST data.')
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-i', '--input-model-path', type=pathlib.Path, help='path to the model to be evaluated')
-    group.add_argument('-o', '--output-model-path', type=pathlib.Path, help='path to file to save trained model in')
+    group.add_argument(
+        '-i', '--input-model-path', type=pathlib.Path, help='path to the model to be evaluated')
+    group.add_argument(
+        '-o',
+        '--output-model-path',
+        type=pathlib.Path,
+        help='path to file to save trained model in'
+    )
 
     return parser.parse_args()
 
@@ -69,7 +76,9 @@ def load_mnist() -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         vec[number] = 1.0
         return vec
 
-    def _load_data_set(images_file_name: str, labels_file_name: str) -> Tuple[np.ndarray, np.ndarray]:
+    def _load_data_set(
+            images_file_name: str, labels_file_name: str
+        ) -> Tuple[np.ndarray, np.ndarray]:
         with gzip.open(MNIST_DIR_PATH / images_file_name, 'rb') as images, \
                 gzip.open(MNIST_DIR_PATH / labels_file_name, 'rb') as labels:
 
@@ -83,7 +92,9 @@ def load_mnist() -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
             n_images = int.from_bytes(images.read(4), byteorder='big')
             n_labels = int.from_bytes(labels.read(4), byteorder='big')
             if n_images != n_labels:
-                raise ValueError(f'number of images ({n_images}) and number of labels ({n_labels}) are different')
+                raise ValueError(
+                    f'number of images ({n_images}) and number of labels ({n_labels}) are different'
+                )
 
             n_rows = int.from_bytes(images.read(4), byteorder='big')
             n_columns = int.from_bytes(images.read(4), byteorder='big')
@@ -154,10 +165,14 @@ def main() -> None:
         print()
 
     # Test estimator
-    train_acc = estimator.evaluate(train_x[:55000], train_y[:55000], metrics_name='categorical_accuracy')
-    train_mse = estimator.evaluate(train_x[:55000], train_y[:55000], metrics_name='mean_squared_error')
-    val_acc = estimator.evaluate(train_x[55000:], train_y[55000:], metrics_name='categorical_accuracy')
-    val_mse = estimator.evaluate(train_x[55000:], train_y[55000:], metrics_name='mean_squared_error')
+    train_acc = estimator.evaluate(
+        train_x[:55000], train_y[:55000], metrics_name='categorical_accuracy')
+    train_mse = estimator.evaluate(
+        train_x[:55000], train_y[:55000], metrics_name='mean_squared_error')
+    val_acc = estimator.evaluate(
+        train_x[55000:], train_y[55000:], metrics_name='categorical_accuracy')
+    val_mse = estimator.evaluate(
+        train_x[55000:], train_y[55000:], metrics_name='mean_squared_error')
     test_acc = estimator.evaluate(test_x, test_y, metrics_name='categorical_accuracy')
     test_mse = estimator.evaluate(test_x, test_y, metrics_name='mean_squared_error')
     print(

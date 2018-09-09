@@ -24,11 +24,18 @@ def parse_args() -> argparse.Namespace:
         Parsed arguments.
 
     """
-    parser = argparse.ArgumentParser(description='Train new model or evaluate existing model on Iris data.')
+    parser = argparse.ArgumentParser(
+        description='Train new model or evaluate existing model on Iris data.')
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-i', '--input-model-path', type=pathlib.Path, help='path to the model to be evaluated')
-    group.add_argument('-o', '--output-model-path', type=pathlib.Path, help='path to file to save trained model in')
+    group.add_argument(
+        '-i', '--input-model-path', type=pathlib.Path, help='path to the model to be evaluated')
+    group.add_argument(
+        '-o',
+        '--output-model-path',
+        type=pathlib.Path,
+        help='path to file to save trained model in'
+    )
 
     return parser.parse_args()
 
@@ -41,7 +48,9 @@ def download_iris() -> None:
     if not IRIS_FILE_PATH.exists():
         response = requests.get(URL, stream=True)
         with open(IRIS_FILE_PATH, 'wb') as iris_file:
-            for data_chunk in mlp.utils.spinner(response.iter_content(), message='Downloading Iris data: '):
+            for data_chunk in mlp.utils.spinner(
+                    response.iter_content(), message='Downloading Iris data: '
+                ):
                 iris_file.write(data_chunk)
 
 
@@ -62,7 +71,9 @@ def load_iris() -> Tuple[np.ndarray, np.ndarray]:
     with open(IRIS_FILE_PATH, 'r') as file:
         reader = csv.reader(file, delimiter=',')
         x, y = [], []
-        for row in mlp.utils.spinner((row for row in reader if row), message='Loading Iris data: '):
+        for row in mlp.utils.spinner(
+                (row for row in reader if row), message='Loading Iris data: '
+            ):
             x.append([float(number) for number in row[:4]])
             y.append(NAME2VEC[row[4]])
     x = np.array(x)
