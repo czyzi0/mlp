@@ -55,64 +55,6 @@ class TestMultilayerPerceptron:
         y = multilayer_perceptron.predict(x)
         assert (vecs_num, units[-1]) == y.shape
 
-    @pytest.mark.parametrize('inputs, units, x, y_true, metrics_name', [
-        (
-            1,
-            [1,],
-            np.array([
-                [1.0],
-                [0.3],
-                [0.2],
-            ]),
-            np.array([
-                [1.0],
-                [7.0],
-                [0.0],
-            ]),
-            'binary_accuracy',
-        ),
-        (
-            1,
-            [2,],
-            np.array([
-                [1.0],
-                [0.3],
-                [0.2],
-            ]),
-            np.array([
-                [1.0, 0.0],
-                [0.0, 1.0],
-                [0.0, 1.0],
-            ]),
-            'categorical_accuracy',
-        ),
-        (
-            1,
-            [2,],
-            np.array([
-                [1.0],
-                [0.3],
-                [0.2],
-            ]),
-            np.array([
-                [1.0, 0.0],
-                [0.0, 1.0],
-                [0.0, 1.0],
-            ]),
-            'mean_squared_error',
-        ),
-    ])
-    def test_evaluate(self, inputs, units, x, y_true, metrics_name):
-        multilayer_perceptron = MultilayerPerceptron(inputs=inputs, units=units)
-        y_pred = multilayer_perceptron.predict(x)
-
-        metrics = _METRICS_DICT[metrics_name]
-        expected_output, _ = metrics(y_pred, y_true)
-
-        output = multilayer_perceptron.evaluate(x, y_true, metrics_name=metrics_name)
-
-        assert expected_output == pytest.approx(output)
-
     @pytest.mark.parametrize('train_y', [
         # XOR
         ([[0], [1], [1], [0]]),

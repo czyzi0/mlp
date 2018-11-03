@@ -57,22 +57,6 @@ class MultilayerPerceptron:
             text += f'\n{layer.shape[1]-1:<21}{layer.shape[0]:<21}{activation._name:<21}\n{"_"*63}'
         return text
 
-    def evaluate(self, x: np.ndarray, y_true: np.ndarray, metrics_name: str) -> float:
-        """Evaluate estimator.
-
-        Args:
-            x: Inputs for evaluation (2d).
-            y_true: Ground truth (correct) labels (2d).
-            metrics_name: Evaluation metrics name.
-
-        Returns:
-            Score for given metrics.
-
-        """
-        y_pred = self.predict(np.array(x, ndmin=2))
-        metrics = _METRICS_DICT[metrics_name]
-        return metrics(y_pred, np.array(y_true, ndmin=2))[0]
-
     def predict(self, x: np.ndarray) -> np.ndarray:
         """Predict for given inputs.
 
