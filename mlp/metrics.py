@@ -6,7 +6,7 @@ from typing import Tuple
 
 import numpy as np
 
-from .utils import one_hot
+from .utils import argmax
 
 
 def binary_accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> float:
@@ -75,7 +75,7 @@ def _categorical_accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> Tuple[float
 
     """
     correct_num = sum(
-        np.allclose(v_pred, v_true) for v_pred, v_true in zip(one_hot(y_pred), y_true))
+        np.allclose(v_pred, v_true) for v_pred, v_true in zip(argmax(y_pred), y_true))
     categorical_acc = correct_num / len(y_pred)
     return categorical_acc, categorical_acc
 _categorical_accuracy._name = 'categorical_accuracy'

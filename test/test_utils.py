@@ -32,8 +32,8 @@ import mlp.utils as utils
         ]),
     )
 ])
-def test_one_hot(x, expected_y):
-    y = utils.one_hot(x)
+def test_argmax(x, expected_y):
+    y = utils.argmax(x)
     assert np.allclose(expected_y, y)
 
 
