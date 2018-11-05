@@ -3,6 +3,7 @@
 """
 
 from . import activation
+from . import data
 from . import metrics
 from . import multilayer_perceptron
 from . import utils
