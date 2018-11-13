@@ -56,6 +56,18 @@ class PrincipalComponentAnalysis:
             return pca
 
 
+class OneHotEncoder:
+
+    def __init__(self):
+        pass
+
+    def encode(self):
+        pass
+
+    def decode(self):
+        pass
+
+
 def argmax(x: np.ndarray) -> np.ndarray:
     """One hot given vectors.
 

@@ -9,6 +9,12 @@ import numpy as np
 from .utils import argmax
 
 
+class ConfusionMatrix:
+
+    def __init__(self):
+        pass
+
+
 def accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> float:
     """Calculate accuracy.
 
@@ -20,7 +26,14 @@ def accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> float:
         Accuracy score.
 
     """
-    acc, _ = _accuracy(np.array(y_pred, ndmin=2), np.array(y_true, ndmin=2))
+    if y_pred.shape != y_true.shape:
+        raise ValueError(
+            f'shapes of y_pred ({y_pred.shape}) and y_true ({y_true.shape}) are different')
+    if np.issubdtype(y_pred.dtype, np.number) and np.issubdtype(y_true.dtype, np.number):
+        correct_n = sum(np.allclose(v_pred, v_true) for v_pred, v_true in zip(y_pred, y_true))
+    else:
+        correct_n = sum(y_pred == y_true)
+    acc = correct_n / len(y_pred)
     return acc
 
 
@@ -38,9 +51,7 @@ def _accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> Tuple[float, float]:
         better score).
 
     """
-    correct_num = sum(
-        np.allclose(v_pred, v_true) for v_pred, v_true in zip(argmax(y_pred), y_true))
-    acc = correct_num / len(y_pred)
+    acc = accuracy(argmax(y_pred), y_true)
     return acc, acc
 _accuracy._name = 'accuracy'
 
@@ -56,7 +67,10 @@ def mean_squared_error(y_pred: np.ndarray, y_true: np.ndarray) -> float:
         Mean squared error score.
 
     """
-    mse, _ = _mean_squared_error(np.array(y_pred, ndmin=2), np.array(y_true, ndmin=2))
+    if y_pred.shape != y_true.shape:
+        raise ValueError(
+            f'shapes of y_pred ({y_pred.shape}) and y_true ({y_true.shape}) are different')
+    mse = np.mean(np.square(y_pred - y_true))
     return mse
 
 
@@ -74,8 +88,8 @@ def _mean_squared_error(y_pred: np.ndarray, y_true: np.ndarray) -> Tuple[float, 
         (greater means better score).
 
     """
-    mse = np.mean(np.square(y_pred - y_true))
-    return mse, - mse
+    mse = mean_squared_error(y_pred, y_true)
+    return mse, -mse
 _mean_squared_error._name = 'mean_squared_error'
 
 
