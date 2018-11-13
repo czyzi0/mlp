@@ -17,6 +17,7 @@ setup(
     license='MIT',
     keywords='machine-learning multilayer-perceptron numpy',
     packages=find_packages(),
+    package_data={'mlp': ['data/*.npz']},
     python_requires='>=3.6.0',
     install_requires=['numpy>=1.15.0']
 )
