@@ -5,11 +5,11 @@ Multilayer perceptron implemented using NumPy with usage examples.
 These instructions will help you get a copy of the project up and running. First clone repository then:
 
 - if you want to just use package, then install it with:
-  ```bash
+  ```
   python setup.py install
   ```
 - if you want to run examples/develop package, install dependencies from `environment.yml` and install package in developer mode. You can do that using `conda`:
-  ```bash
+  ```
   conda env create -f environment.yml
   conda activate mlp
   python setup.py develop
@@ -34,12 +34,12 @@ optional arguments:
 ```
 
 To evaluate existing model:
-```bash
+```
 python iris_example.py -i models/iris-model.json
 ```
 
 To train new model:
-```bash
+```
 python iris_example.py -o models/my-iris-model.json
 ```
 
@@ -59,12 +59,12 @@ optional arguments:
 ```
 
 To evaluate existing model:
-```bash
+```
 python mnist_example.py -i models/mnist-model.json
 ```
 
 To train new model:
-```bash
+```
 python mnist_example.py -o models/my-mnist-model.json
 ```
 
@@ -80,12 +80,16 @@ Commit messages are structured in accordance with:
 
 ### Tests
 Test are ran with __pytest__. To run them type:
-```bash
-pytest --cov=mlp/
+```
+pytest --cov mlp/
 ```
 
 ### Code analysis
 Code analysis is performed with __Pylint__. To run it type:
-```bash
-pylint mlp/ example/
+```
+pylint mlp/
+```
+Types are checkes with __mypy__, To run it type:
+```
+mypy mlp/
 ```
