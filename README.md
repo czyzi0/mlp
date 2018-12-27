@@ -1,5 +1,5 @@
 # mlp
-Multilayer perceptron implemented using NumPy with usage examples.
+Multilayer perceptron implemented using NumPy.
 
 ## Setup
 These instructions will help you get a copy of the project up and running. First clone repository then:
@@ -91,5 +91,5 @@ pylint mlp/
 ```
 Types are checkes with __mypy__, To run it type:
 ```
-mypy mlp/
+mypy mlp/ --ignore-missing-imports
 ```
