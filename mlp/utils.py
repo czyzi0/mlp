@@ -1,28 +1,24 @@
-"""Module with various utility functions.
-
-"""
+"""Module with various utility tools."""
 
 import sys
-import time
-from typing import Any, Generator, Iterable, Optional, Tuple
+from typing import Any, Generator, Iterable, Tuple
 
 import numpy as np
 
 
-def one_hot(x: np.ndarray) -> np.ndarray:
-    """One hot given vectors.
+def argmax(x: np.ndarray) -> np.ndarray:
+    """Transforms vectors to one-hot vectors with 1 at hightes values.
 
     Function searches for maximal value in each of vectors and sets it to 1 and
     the rest to 0.
 
     Args:
-        x: Vectors to one hot.
+        x: Vectors to process.
 
     Returns:
         One-hotted vectors.
 
     """
-    x = np.array(x, ndmin=2)
     indices = np.argmax(x, axis=1)
 
     y = np.zeros_like(x)
@@ -32,14 +28,14 @@ def one_hot(x: np.ndarray) -> np.ndarray:
 
 
 def chunked(array: np.ndarray, chunk_size: int) -> Generator[np.ndarray, None, None]:
-    """Break array into chunks of length chunk_size.
+    """Breaks array into chunks of length chunk_size.
 
     Args:
         array: Array to break.
         chunk_size: Length of chunk.
 
     Yields:
-        Chunks of length chunk_size.
+        Chunks of length `chunk_size`.
 
     """
     for i in range(0, len(array), chunk_size):
@@ -47,7 +43,7 @@ def chunked(array: np.ndarray, chunk_size: int) -> Generator[np.ndarray, None, N
 
 
 def unison_shuffle(array1: np.ndarray, array2: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    """Shuffle two arrays in unison.
+    """Shuffles two arrays in unison.
 
     Args:
         array1: First array to shuffle.
@@ -57,18 +53,20 @@ def unison_shuffle(array1: np.ndarray, array2: np.ndarray) -> Tuple[np.ndarray, 
         Tuple of shuffled in unison arrays.
 
     """
+    if array1.shape[0] != array2.shape[0]:
+        raise ValueError(f'lengths of array1 and array2 are different')
     permutation = np.random.permutation(len(array1))
     return array1[permutation], array2[permutation]
 
 
 def progress_bar(
         iterable: Iterable[Any],
-        total: Optional[int] = None,
+        total: int,
         step: int = 1,
         verbose: bool = True,
         n_cols: int = 30
     ) -> Generator[Any, None, None]:
-    """Wrap given iterable and print progress bar.
+    """Wraps given iterable and prints progress bar.
 
     Args:
         iterable: Iterable to wrap.
@@ -84,8 +82,6 @@ def progress_bar(
     """
     if verbose:
         state = 0
-        if total is None:
-            total = len(iterable)
 
     for item in iterable:
         yield item
@@ -98,33 +94,3 @@ def progress_bar(
 
     if verbose:
         print(file=sys.stderr)
-
-
-def spinner(
-        iterable: Iterable[Any],
-        message: str = '',
-        verbose: bool = True
-    ) -> Generator[Any, None, None]:
-    """Wrap given iterable and print spinner.
-
-    Args:
-        iterable: Iterable to wrap.
-        message: Message to print before spinner.
-        verbose: If set False wrapper won't print anything.
-
-    Yields:
-        Consecutive values from given iterable.
-
-    """
-    if verbose:
-        markers = '|/-\\'
-        print(f'{message} ', file=sys.stderr, end='')
-
-    for item in iterable:
-        yield item
-        if verbose:
-            current_marker = int(10 * time.time()) % len(markers)
-            print(f'\b{markers[current_marker]}', file=sys.stderr, end='')
-
-    if verbose:
-        print('\bdone', file=sys.stderr)

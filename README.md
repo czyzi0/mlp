@@ -1,15 +1,15 @@
 # mlp
-Multilayer perceptron implemented using NumPy with usage examples.
+Multilayer perceptron implemented using NumPy.
 
 ## Setup
 These instructions will help you get a copy of the project up and running. First clone repository then:
 
 - if you want to just use package, then install it with:
-  ```bash
+  ```
   python setup.py install
   ```
 - if you want to run examples/develop package, install dependencies from `environment.yml` and install package in developer mode. You can do that using `conda`:
-  ```bash
+  ```
   conda env create -f environment.yml
   conda activate mlp
   python setup.py develop
@@ -21,51 +21,37 @@ These instructions will help you get a copy of the project up and running. First
 ### Iris
 First example uses Iris data set (available [here](https://archive.ics.uci.edu/ml/datasets/iris)). Here is manual for this example:
 ```
-usage: iris_example.py [-h] (-i INPUT_MODEL_PATH | -o OUTPUT_MODEL_PATH)
+usage: iris.py [-h] [-o OUTPUT]
 
-Train new model or evaluate existing model on Iris data.
+Train and evaluate model on Iris data.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -i INPUT_MODEL_PATH, --input-model-path INPUT_MODEL_PATH
-                        path to the model to be evaluated
-  -o OUTPUT_MODEL_PATH, --output-model-path OUTPUT_MODEL_PATH
-                        path to file to save trained model in
+  -o OUTPUT, --output OUTPUT
+                        path to save model at
 ```
 
-To evaluate existing model:
-```bash
-python iris_example.py -i models/iris-model.json
+To print this manual:
 ```
-
-To train new model:
-```bash
-python iris_example.py -o models/my-iris-model.json
+python -m mlp.example.iris -h
 ```
 
 ### MNIST
 Second example uses MNIST data set (available [here](http://yann.lecun.com/exdb/mnist/)). Here is manual for this example:
 ```
-usage: mnist_example.py [-h] (-i INPUT_MODEL_PATH | -o OUTPUT_MODEL_PATH)
+usage: mnist.py [-h] [-o OUTPUT]
 
-Train new model or evaluate existing model on MNIST data.
+Train and evaluate model on MNIST data.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -i INPUT_MODEL_PATH, --input-model-path INPUT_MODEL_PATH
-                        path to the model to be evaluated
-  -o OUTPUT_MODEL_PATH, --output-model-path OUTPUT_MODEL_PATH
-                        path to file to save trained model in
+  -o OUTPUT, --output OUTPUT
+                        path to save model at
 ```
 
-To evaluate existing model:
-```bash
-python mnist_example.py -i models/mnist-model.json
+To print this manual:
 ```
-
-To train new model:
-```bash
-python mnist_example.py -o models/my-mnist-model.json
+python -m mlp.example.mnist -h
 ```
 
 ## Development
@@ -80,12 +66,16 @@ Commit messages are structured in accordance with:
 
 ### Tests
 Test are ran with __pytest__. To run them type:
-```bash
-pytest --cov=mlp/
+```
+pytest --cov mlp/
 ```
 
 ### Code analysis
 Code analysis is performed with __Pylint__. To run it type:
-```bash
-pylint mlp/ example/
+```
+pylint mlp/
+```
+Types are checkes with __mypy__, To run it type:
+```
+mypy mlp/ --ignore-missing-imports
 ```

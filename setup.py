@@ -8,8 +8,8 @@ with open(pathlib.Path(__file__).parent / 'README.md', 'r') as long_desc_file:
 
 setup(
     name='mlp',
-    version='0.1.0',
-    description='Multilayer perceptron implemented using NumPy with usage examples',
+    version='0.0.0',
+    description='Multilayer perceptron implemented using NumPy',
     long_description=LONG_DESCRIPTION,
     author='czyzi0',
     author_email='czyznikiewicz.mateusz@gmail.com',
@@ -17,6 +17,7 @@ setup(
     license='MIT',
     keywords='machine-learning multilayer-perceptron numpy',
     packages=find_packages(),
+    package_data={'mlp': ['data/*.npz']},
     python_requires='>=3.6.0',
     install_requires=['numpy>=1.15.0']
 )
