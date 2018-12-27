@@ -12,8 +12,7 @@ def accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> float:
 
     Args:
         y_pred: Predicted labels. To get labels from `MultilayerPerceptron`
-                output you can use `mlp.utils.argmax` or
-                `mlp.utils.OneHotEncoder`.
+                output you can use `mlp.utils.argmax`.
         y_true: Ground truth (correct) labels.
 
     Returns:

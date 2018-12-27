@@ -110,6 +110,7 @@ class MultilayerPerceptron:
             verbose: Flag for training verbosity.
 
         """
+        # pylint: disable=too-many-arguments, too-many-locals, too-many-branches, too-many-statements
         # Check if metrics is available
         if metrics not in _METRICS_DICT:
             raise ValueError(f'{metrics} is not available')
@@ -124,7 +125,7 @@ class MultilayerPerceptron:
         # Print training summary
         if verbose:
             print(f'Train on {len(train_x)} samples', end='')
-            if validate:
+            if validate and val_x is not None:    # check to suppress mypy error
                 print(f' - Validate on {len(val_x)} samples')
             else:
                 print()

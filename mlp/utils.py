@@ -1,30 +1,9 @@
 """Module with various utility tools."""
 
 import sys
-from typing import Any, Generator, Iterable, Optional, Tuple
+from typing import Any, Generator, Iterable, Tuple
 
 import numpy as np
-
-
-class OneHotEncoder:
-    """
-
-    """
-
-    def __init__(self):
-        pass
-
-    def encode(self):
-        """
-
-        """
-        pass
-
-    def decode(self):
-        """
-
-        """
-        pass
 
 
 def argmax(x: np.ndarray) -> np.ndarray:

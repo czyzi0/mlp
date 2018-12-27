@@ -21,51 +21,37 @@ These instructions will help you get a copy of the project up and running. First
 ### Iris
 First example uses Iris data set (available [here](https://archive.ics.uci.edu/ml/datasets/iris)). Here is manual for this example:
 ```
-usage: iris_example.py [-h] (-i INPUT_MODEL_PATH | -o OUTPUT_MODEL_PATH)
+usage: iris.py [-h] [-o OUTPUT]
 
-Train new model or evaluate existing model on Iris data.
+Train and evaluate model on Iris data.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -i INPUT_MODEL_PATH, --input-model-path INPUT_MODEL_PATH
-                        path to the model to be evaluated
-  -o OUTPUT_MODEL_PATH, --output-model-path OUTPUT_MODEL_PATH
-                        path to file to save trained model in
+  -o OUTPUT, --output OUTPUT
+                        path to save model at
 ```
 
-To evaluate existing model:
+To print this manual:
 ```
-python iris_example.py -i models/iris-model.json
-```
-
-To train new model:
-```
-python iris_example.py -o models/my-iris-model.json
+python -m mlp.example.iris -h
 ```
 
 ### MNIST
 Second example uses MNIST data set (available [here](http://yann.lecun.com/exdb/mnist/)). Here is manual for this example:
 ```
-usage: mnist_example.py [-h] (-i INPUT_MODEL_PATH | -o OUTPUT_MODEL_PATH)
+usage: mnist.py [-h] [-o OUTPUT]
 
-Train new model or evaluate existing model on MNIST data.
+Train and evaluate model on MNIST data.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -i INPUT_MODEL_PATH, --input-model-path INPUT_MODEL_PATH
-                        path to the model to be evaluated
-  -o OUTPUT_MODEL_PATH, --output-model-path OUTPUT_MODEL_PATH
-                        path to file to save trained model in
+  -o OUTPUT, --output OUTPUT
+                        path to save model at
 ```
 
-To evaluate existing model:
+To print this manual:
 ```
-python mnist_example.py -i models/mnist-model.json
-```
-
-To train new model:
-```
-python mnist_example.py -o models/my-mnist-model.json
+python -m mlp.example.mnist -h
 ```
 
 ## Development
