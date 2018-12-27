@@ -121,27 +121,25 @@ def test_unison_shuffle(array_shape):
     assert np.allclose(array1, array2)
 
 
+@pytest.mark.parametrize('array1, array2', [
+    (
+        np.array([1, 2, 3, 4, 5]),
+        np.array([1, 2, 3, 4, 5, 6]),
+    ),
+])
+def test_unison_shuffle_raises_error(array1, array2):
+    with pytest.raises(ValueError):
+        utils.unison_shuffle(array1, array2)
+
+
 @pytest.mark.parametrize('iterable, total, verbose', [
-    (list(range(100)), None, False),
-    (list(range(100)), None, True),
-    (np.arange(1500), None, False),
+    (list(range(100)), 100, False),
+    (list(range(100)), 100, True),
+    (np.arange(1500), 1500, False),
+    (range(300), 300, True),
     (range(300), 300, False),
-    (range(300), 300, False),
-    (list(range(50)), None, True),
+    (list(range(50)), 50, True),
 ])
 def test_progress_bar(iterable, total, verbose):
     for item1, item2 in zip(iterable, utils.progress_bar(iterable, total=total, verbose=verbose)):
-        assert item1 == item2
-
-
-@pytest.mark.parametrize('iterable, message, verbose', [
-    (list(range(100)), '', False),
-    (list(range(100)), '', True),
-    (np.arange(1500), '', False),
-    (range(300), 'Testing: ', False),
-    (range(300), 'Testing: ', False),
-    (list(range(50)), 'Testing: ', True),
-])
-def test_spinner(iterable, message, verbose):
-    for item1, item2 in zip(iterable, utils.spinner(iterable, message=message, verbose=verbose)):
         assert item1 == item2

@@ -93,5 +93,4 @@ _ACTIVATION_DICT = {
     'relu': _relu,
     'sigmoid': _sigmoid,
     'softplus': _softplus,
-    'tanh': _tanh,
-}
+    'tanh': _tanh}

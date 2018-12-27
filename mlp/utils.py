@@ -1,87 +1,45 @@
-"""Module with various utility tools.
+"""Module with various utility tools."""
 
-"""
-
-import json
 import sys
-import time
 from typing import Any, Generator, Iterable, Optional, Tuple
 
 import numpy as np
 
 
-class PrincipalComponentAnalysis:
-    """Principal Component Analysis.
-
-    Attributes:
-        _model: 
-
+class OneHotEncoder:
     """
 
-    def __init__(self):
-        self._model = np.identity(1)
-
-    def train(self, train_vectors_in, dims):
-        train_vecs_in = np.array(train_vectors_in, ndmin=2).T
-
-        covariance_matrix = np.cov(train_vecs_in)
-
-        eigen_values, eigen_vecs = np.linalg.eig(covariance_matrix)
-        eigen_pairs = [
-            (np.abs(eigen_values[i]), np.atleast_2d(eigen_vecs[:, i]).T)
-            for i in range(len(eigen_values))
-        ]
-        eigen_pairs.sort(key=lambda x: x[0], reverse=True)
-
-        self._model = np.hstack([eigen_pairs[i][1] for i in range(dims)])
-
-    def transform(self, vectors_in):
-        vecs_pred = np.matmul(self._model.T, np.array(vectors_in, ndmin=2).T).T
-        if isinstance(vectors_in, type([])):
-            return vecs_pred.tolist()
-        return vecs_pred
-
-    def save(self, file_path):
-        model = self._model.tolist()
-        with open(file_path, 'w') as file_:
-            json.dump(model, file_, indent=4, sort_keys=True)
-
-    @staticmethod
-    def load(file_path):
-        with open(file_path, 'r') as file_:
-            model = json.loads(file_.read())
-            pca = PrincipalComponentAnalysis()
-            # pylint: disable=protected-access
-            pca._model = np.array(model, ndmin=2)
-            return pca
-
-
-class OneHotEncoder:
+    """
 
     def __init__(self):
         pass
 
     def encode(self):
+        """
+
+        """
         pass
 
     def decode(self):
+        """
+
+        """
         pass
 
 
 def argmax(x: np.ndarray) -> np.ndarray:
-    """One hot given vectors.
+    """Transforms vectors to one-hot vectors with 1 at hightes values.
 
     Function searches for maximal value in each of vectors and sets it to 1 and
     the rest to 0.
 
     Args:
-        x: Vectors to one hot.
+        x: Vectors to process.
 
     Returns:
         One-hotted vectors.
 
     """
-    x = np.array(x, ndmin=2)
     indices = np.argmax(x, axis=1)
 
     y = np.zeros_like(x)
@@ -91,14 +49,14 @@ def argmax(x: np.ndarray) -> np.ndarray:
 
 
 def chunked(array: np.ndarray, chunk_size: int) -> Generator[np.ndarray, None, None]:
-    """Break array into chunks of length chunk_size.
+    """Breaks array into chunks of length chunk_size.
 
     Args:
         array: Array to break.
         chunk_size: Length of chunk.
 
     Yields:
-        Chunks of length chunk_size.
+        Chunks of length `chunk_size`.
 
     """
     for i in range(0, len(array), chunk_size):
@@ -106,7 +64,7 @@ def chunked(array: np.ndarray, chunk_size: int) -> Generator[np.ndarray, None, N
 
 
 def unison_shuffle(array1: np.ndarray, array2: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    """Shuffle two arrays in unison.
+    """Shuffles two arrays in unison.
 
     Args:
         array1: First array to shuffle.
@@ -116,18 +74,20 @@ def unison_shuffle(array1: np.ndarray, array2: np.ndarray) -> Tuple[np.ndarray, 
         Tuple of shuffled in unison arrays.
 
     """
+    if array1.shape[0] != array2.shape[0]:
+        raise ValueError(f'lengths of array1 and array2 are different')
     permutation = np.random.permutation(len(array1))
     return array1[permutation], array2[permutation]
 
 
 def progress_bar(
         iterable: Iterable[Any],
-        total: Optional[int] = None,
+        total: int,
         step: int = 1,
         verbose: bool = True,
         n_cols: int = 30
     ) -> Generator[Any, None, None]:
-    """Wrap given iterable and print progress bar.
+    """Wraps given iterable and prints progress bar.
 
     Args:
         iterable: Iterable to wrap.
@@ -143,8 +103,6 @@ def progress_bar(
     """
     if verbose:
         state = 0
-        if total is None:
-            total = len(iterable)
 
     for item in iterable:
         yield item
@@ -157,33 +115,3 @@ def progress_bar(
 
     if verbose:
         print(file=sys.stderr)
-
-
-def spinner(
-        iterable: Iterable[Any],
-        message: str = '',
-        verbose: bool = True
-    ) -> Generator[Any, None, None]:
-    """Wrap given iterable and print spinner.
-
-    Args:
-        iterable: Iterable to wrap.
-        message: Message to print before spinner.
-        verbose: If set False wrapper won't print anything.
-
-    Yields:
-        Consecutive values from given iterable.
-
-    """
-    if verbose:
-        markers = '|/-\\'
-        print(f'{message} ', file=sys.stderr, end='')
-
-    for item in iterable:
-        yield item
-        if verbose:
-            current_marker = int(10 * time.time()) % len(markers)
-            print(f'\b{markers[current_marker]}', file=sys.stderr, end='')
-
-    if verbose:
-        print('\bdone', file=sys.stderr)

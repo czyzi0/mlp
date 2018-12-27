@@ -21,8 +21,7 @@ def accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> float:
 
     """
     if y_pred.shape != y_true.shape:
-        raise ValueError(
-            f'shapes of y_pred ({y_pred.shape}) and y_true ({y_true.shape}) are different')
+        raise ValueError('shapes of y_pred and y_true are different')
     if np.issubdtype(y_pred.dtype, np.number) and np.issubdtype(y_true.dtype, np.number):
         correct_n = sum(np.allclose(v_pred, v_true) for v_pred, v_true in zip(y_pred, y_true))
     else:
@@ -61,8 +60,7 @@ def mean_squared_error(y_pred: np.ndarray, y_true: np.ndarray) -> float:
 
     """
     if y_pred.shape != y_true.shape:
-        raise ValueError(
-            f'shapes of y_pred ({y_pred.shape}) and y_true ({y_true.shape}) are different')
+        raise ValueError('shapes of y_pred and y_true are different')
     mse = np.mean(np.square(y_pred - y_true))
     return mse
 
@@ -89,5 +87,4 @@ _METRICS_DICT = {
     'accuracy': _accuracy,
     'acc': _accuracy,
     'mean_squared_error': _mean_squared_error,
-    'mse': _mean_squared_error,
-}
+    'mse': _mean_squared_error}
