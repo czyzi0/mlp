@@ -1,6 +1,4 @@
-"""Module with metrics function definitions.
-
-"""
+"""Module with metrics function definitions."""
 
 from typing import Tuple
 
@@ -9,18 +7,14 @@ import numpy as np
 from .utils import argmax
 
 
-class ConfusionMatrix:
-
-    def __init__(self):
-        pass
-
-
 def accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> float:
-    """Calculate accuracy.
+    """Calculates accuracy.
 
     Args:
-        y_pred: Predicted labels (2d).
-        y_true: Ground truth (correct) labels (2d).
+        y_pred: Predicted labels. To get labels from `MultilayerPerceptron`
+                output you can use `mlp.utils.argmax` or
+                `mlp.utils.OneHotEncoder`.
+        y_true: Ground truth (correct) labels.
 
     Returns:
         Accuracy score.
@@ -38,13 +32,13 @@ def accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> float:
 
 
 def _accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> Tuple[float, float]:
-    """Calculate accuracy.
+    """Calculates accuracy.
 
     For internal use only.
 
     Args:
-        y_pred: Predicted labels (2d).
-        y_true: Ground truth (correct) labels (2d).
+        y_pred: MultilayerPerceptron outputs.
+        y_true: Ground truth (correct) labels as one-hot vectors.
 
     Returns:
         Tuple of proper accuracy score and score for comparison (greater means
@@ -53,15 +47,14 @@ def _accuracy(y_pred: np.ndarray, y_true: np.ndarray) -> Tuple[float, float]:
     """
     acc = accuracy(argmax(y_pred), y_true)
     return acc, acc
-_accuracy._name = 'accuracy'
 
 
 def mean_squared_error(y_pred: np.ndarray, y_true: np.ndarray) -> float:
-    """Calculate mean squared error.
+    """Calculates mean squared error.
 
     Args:
-        y_pred: Predicted labels (2d).
-        y_true: Ground truth (correct) labels (2d).
+        y_pred: Predicted values.
+        y_true: Ground truth (correct) values.
 
     Returns:
         Mean squared error score.
@@ -80,8 +73,8 @@ def _mean_squared_error(y_pred: np.ndarray, y_true: np.ndarray) -> Tuple[float, 
     For internal use only.
 
     Args:
-        y_pred: Predicted labels (2d).
-        y_true: Ground truth (correct) labels (2d).
+        y_pred: MultilayerPerceptron outputs.
+        y_true: Ground truth (correct) values.
 
     Returns:
         Tuple of proper mean squared error score and score for comparison
@@ -90,10 +83,11 @@ def _mean_squared_error(y_pred: np.ndarray, y_true: np.ndarray) -> Tuple[float, 
     """
     mse = mean_squared_error(y_pred, y_true)
     return mse, -mse
-_mean_squared_error._name = 'mean_squared_error'
 
 
 _METRICS_DICT = {
-    _accuracy._name: _accuracy,
-    _mean_squared_error._name: _mean_squared_error,
+    'accuracy': _accuracy,
+    'acc': _accuracy,
+    'mean_squared_error': _mean_squared_error,
+    'mse': _mean_squared_error,
 }

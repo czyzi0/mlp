@@ -1,6 +1,4 @@
-"""Module with activation function definitions.
-
-"""
+"""Module with activation function definitions."""
 
 import numpy as np
 
@@ -19,7 +17,6 @@ def _identity(x: np.ndarray, derivative: bool = False) -> np.ndarray:
     if derivative:
         return np.ones_like(x)
     return x
-_identity._name = 'identity'
 
 
 def _relu(x: np.ndarray, derivative: bool = False) -> np.ndarray:
@@ -37,7 +34,6 @@ def _relu(x: np.ndarray, derivative: bool = False) -> np.ndarray:
     if derivative:
         return np.heaviside(x, 0)
     return np.maximum(x, 0)
-_relu._name = 'relu'
 
 
 def _sigmoid(x: np.ndarray, derivative: bool = False) -> np.ndarray:
@@ -56,7 +52,6 @@ def _sigmoid(x: np.ndarray, derivative: bool = False) -> np.ndarray:
     if derivative:
         return sigmoid * (1 - sigmoid)
     return sigmoid
-_sigmoid._name = 'sigmoid'
 
 
 def _softplus(x: np.ndarray, derivative: bool = False) -> np.ndarray:
@@ -74,7 +69,6 @@ def _softplus(x: np.ndarray, derivative: bool = False) -> np.ndarray:
     if derivative:
         return 1 / (1 + np.exp(-x))
     return x + np.log(1 + np.exp(-x))
-_softplus._name = 'softplus'
 
 
 def _tanh(x: np.ndarray, derivative: bool = False) -> np.ndarray:
@@ -92,13 +86,12 @@ def _tanh(x: np.ndarray, derivative: bool = False) -> np.ndarray:
     if derivative:
         return 1 - tanh * tanh
     return tanh
-_tanh._name = 'tanh'
 
 
 _ACTIVATION_DICT = {
-    _identity._name: _identity,
-    _relu._name: _relu,
-    _sigmoid._name: _sigmoid,
-    _softplus._name: _softplus,
-    _tanh._name: _tanh,
+    'identity': _identity,
+    'relu': _relu,
+    'sigmoid': _sigmoid,
+    'softplus': _softplus,
+    'tanh': _tanh,
 }

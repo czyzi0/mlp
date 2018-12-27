@@ -4,7 +4,7 @@ import pytest
 import mlp.metrics as metrics
 
 
-@pytest.mark.parametrize('y_pred, y_true, expected_output', [
+@pytest.mark.parametrize('y_pred, y_true, xpcd_output', [
     (
         np.array(['a', 'b', 'c', 'a', 'b', 'c']),
         np.array(['a', 'b', 'c', 'a', 'b', 'c']),
@@ -30,20 +30,18 @@ import mlp.metrics as metrics
             [1.0, 0.0, 0.0],
             [1.0, 0.0, 0.0],
             [0.0, 1.0, 0.0],
-            [0.0, 0.0, 1.0],
-        ]),
+            [0.0, 0.0, 1.0]]),
         np.array([
             [1.0, 0.0, 0.0],
             [0.0, 1.0, 0.0],
             [0.0, 1.0, 0.0],
-            [0.0, 1.0, 0.0],
-        ]),
+            [0.0, 1.0, 0.0]]),
         0.5,
     ),
 ])
-def test_accuracy(y_pred, y_true, expected_output):
+def test_accuracy(y_pred, y_true, xpcd_output):
     output = metrics.accuracy(y_pred, y_true)
-    assert pytest.approx(expected_output) == output
+    assert pytest.approx(xpcd_output) == output
 
 
 @pytest.mark.parametrize('y_pred, y_true', [
@@ -57,27 +55,23 @@ def test_accuracy_raises_error(y_pred, y_true):
         metrics.accuracy(y_pred, y_true)
 
 
-@pytest.mark.parametrize('y_pred, y_true, expected_output', [
+@pytest.mark.parametrize('y_pred, y_true, xpcd_output', [
     (
         np.array([
             [0.1, 0.2, 0.76],
-            [0.04, 0.01, 0.9],
-        ]),
+            [0.04, 0.01, 0.9]]),
         np.array([
             [0.0, 0.0, 1.0],
-            [0.0, 0.0, 1.0],
-        ]),
+            [0.0, 0.0, 1.0]]),
         1.0,
     ),
     (
         np.array([
             [0.1, 0.1, 0.2],
-            [0.8, 0.4, 0.6],
-        ]),
+            [0.8, 0.4, 0.6]]),
         np.array([
             [0.0, 1.0, 0.0],
-            [1.0, 0.0, 0.0],
-        ]),
+            [1.0, 0.0, 0.0]]),
         0.5,
     ),
     (
@@ -85,46 +79,41 @@ def test_accuracy_raises_error(y_pred, y_true):
             [0.1, 0.2, 0.76],
             [0.04, 0.01, 0.9],
             [0.1, 0.1, 0.2],
-            [0.8, 0.4, 0.6],
-        ]),
+            [0.8, 0.4, 0.6]]),
         np.array([
             [0.0, 0.0, 1.0],
             [0.0, 0.0, 1.0],
             [0.0, 1.0, 0.0],
-            [1.0, 0.0, 0.0],
-        ]),
+            [1.0, 0.0, 0.0]]),
         0.75,
     ),
 ])
-def test__accuracy(y_pred, y_true, expected_output):
-    assert metrics._accuracy._name in metrics._METRICS_DICT
+def test__accuracy(y_pred, y_true, xpcd_output):
+    assert 'accuracy' in metrics._METRICS_DICT
+    assert 'acc' in metrics._METRICS_DICT
 
     internal_output, compare_output = metrics._accuracy(y_pred, y_true)
-    assert pytest.approx(expected_output) == internal_output
-    assert pytest.approx(expected_output) == compare_output
+    assert pytest.approx(xpcd_output) == internal_output
+    assert pytest.approx(xpcd_output) == compare_output
 
 
-@pytest.mark.parametrize('y_pred, y_true, expected_output', [
+@pytest.mark.parametrize('y_pred, y_true, xpcd_output', [
     (
         np.array([
             [0.1, 0.2, 0.76],
-            [0.04, 0.01, 0.9],
-        ]),
+            [0.04, 0.01, 0.9]]),
         np.array([
             [0.0, 0.0, 1.0],
-            [0.0, 0.0, 1.0],
-        ]),
+            [0.0, 0.0, 1.0]]),
         0.01988333,
     ),
     (
         np.array([
             [0.1, 0.1, 0.2],
-            [0.8, 0.4, 0.6],
-        ]),
+            [0.8, 0.4, 0.6]]),
         np.array([
             [0.0, 1.0, 0.0],
-            [1.0, 0.0, 0.0],
-        ]),
+            [1.0, 0.0, 0.0]]),
         0.23666666,
     ),
     (
@@ -132,14 +121,12 @@ def test__accuracy(y_pred, y_true, expected_output):
             [0.1, 0.2, 0.76],
             [0.04, 0.01, 0.9],
             [0.1, 0.1, 0.2],
-            [0.8, 0.4, 0.6],
-        ]),
+            [0.8, 0.4, 0.6]]),
         np.array([
             [0.0, 0.0, 1.0],
             [0.0, 0.0, 1.0],
             [0.0, 1.0, 0.0],
-            [1.0, 0.0, 0.0],
-        ]),
+            [1.0, 0.0, 0.0]]),
         0.128275,
     ),
     (
@@ -148,16 +135,17 @@ def test__accuracy(y_pred, y_true, expected_output):
         0.084,
     ),
 ])
-def test_mean_squared_error(y_pred, y_true, expected_output):
-    assert metrics._mean_squared_error._name in metrics._METRICS_DICT
+def test_mean_squared_error(y_pred, y_true, xpcd_output):
+    assert 'mean_squared_error' in metrics._METRICS_DICT
+    assert 'mse' in metrics._METRICS_DICT
 
     internal_output, compare_output = metrics._mean_squared_error(y_pred, y_true)
     external_output = metrics.mean_squared_error(y_pred, y_true)
 
-    assert pytest.approx(expected_output) == internal_output
-    assert pytest.approx(-expected_output) == compare_output
+    assert pytest.approx(xpcd_output) == internal_output
+    assert pytest.approx(-xpcd_output) == compare_output
 
-    assert pytest.approx(expected_output) == external_output
+    assert pytest.approx(xpcd_output) == external_output
 
 
 @pytest.mark.parametrize('y_pred, y_true', [
