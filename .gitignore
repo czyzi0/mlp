@@ -1,7 +1,3 @@
-# Project specific files
-example/data/*
-!example/data/.gitkeep
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
