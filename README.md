@@ -1,5 +1,5 @@
 # mlp
-Multilayer perceptron implemented using NumPy.
+Multilayer perceptron implemented using [NumPy](http://www.numpy.org/).
 
 ## Setup
 These instructions will help you get a copy of the project up and running. First clone repository then:
@@ -8,7 +8,7 @@ These instructions will help you get a copy of the project up and running. First
   ```
   python setup.py install
   ```
-- if you want to run examples/develop package, install dependencies from `environment.yml` and install package in developer mode. You can do that using `conda`:
+- if you want to develop package, install dependencies from `environment.yml` and install package in developer mode. You can do that using [Conda](https://conda.io/docs/):
   ```
   conda env create -f environment.yml
   conda activate mlp
@@ -19,7 +19,7 @@ These instructions will help you get a copy of the project up and running. First
 ## Examples
 
 ### Iris
-First example uses Iris data set (available [here](https://archive.ics.uci.edu/ml/datasets/iris)). Here is manual for this example:
+First example uses [Iris](https://archive.ics.uci.edu/ml/datasets/iris) data set. Here is manual for this example:
 ```
 usage: iris.py [-h] [-o OUTPUT]
 
@@ -37,7 +37,7 @@ python -m mlp.example.iris -h
 ```
 
 ### MNIST
-Second example uses MNIST data set (available [here](http://yann.lecun.com/exdb/mnist/)). Here is manual for this example:
+Second example uses [MNIST](http://yann.lecun.com/exdb/mnist/) data set. Here is manual for this example:
 ```
 usage: mnist.py [-h] [-o OUTPUT]
 
@@ -65,17 +65,17 @@ Commit messages are structured in accordance with:
 - Don't end the summary with a period.
 
 ### Tests
-Test are ran with __pytest__. To run them type:
+Test are ran with [pytest](https://docs.pytest.org/en/latest/). To run them type:
 ```
 pytest --cov mlp/
 ```
 
 ### Code analysis
-Code analysis is performed with __Pylint__. To run it type:
+Code analysis is performed with [Pylint](https://www.pylint.org/). To run it type:
 ```
 pylint mlp/
 ```
-Types are checkes with __mypy__, To run it type:
+Types are checkes with [mypy](http://mypy-lang.org/). To run it type:
 ```
 mypy mlp/ --ignore-missing-imports
 ```
