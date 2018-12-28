@@ -64,18 +64,18 @@ Commit messages are structured in accordance with:
 - Always leave the second line blank.
 - Don't end the summary with a period.
 
-### Tests
-Test are ran with [pytest](https://docs.pytest.org/en/latest/). To run them type:
-```
-pytest --cov mlp/
-```
-
 ### Code analysis
 Code analysis is performed with [Pylint](https://www.pylint.org/). To run it type:
 ```
 pylint mlp/
 ```
-Types are checkes with [mypy](http://mypy-lang.org/). To run it type:
+Types are checked with [mypy](http://mypy-lang.org/). To run it type:
 ```
 mypy mlp/ --ignore-missing-imports
+```
+
+### Tests
+Test are ran with [pytest](https://docs.pytest.org/en/latest/). To run them type:
+```
+pytest --cov mlp/
 ```
