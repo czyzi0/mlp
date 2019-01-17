@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-import mlp.activation as activation
+import mlp.activations as activations
 
 
 @pytest.mark.parametrize('x, xpcd_y, xpcd_derivative', [
@@ -18,12 +18,12 @@ import mlp.activation as activation
     ),
 ])
 def test__identity(x, xpcd_y, xpcd_derivative):
-    assert 'identity' in activation._ACTIVATION_DICT
+    assert 'identity' in activations._ACTIVATION_DICT
 
-    y = activation._identity(x)
+    y = activations._identity(x)
     assert np.allclose(xpcd_y, y)
 
-    derivative = activation._identity(x, derivative=True)
+    derivative = activations._identity(x, derivative=True)
     assert np.allclose(xpcd_derivative, derivative)
 
 
@@ -35,12 +35,12 @@ def test__identity(x, xpcd_y, xpcd_derivative):
     ),
 ])
 def test__relu(x, xpcd_y, xpcd_derivative):
-    assert 'relu' in activation._ACTIVATION_DICT
+    assert 'relu' in activations._ACTIVATION_DICT
 
-    y = activation._relu(x)
+    y = activations._relu(x)
     assert np.allclose(xpcd_y, y)
 
-    derivative = activation._relu(x, derivative=True)
+    derivative = activations._relu(x, derivative=True)
     assert np.allclose(xpcd_derivative, derivative)
 
 
@@ -64,12 +64,12 @@ def test__relu(x, xpcd_y, xpcd_derivative):
     ),
 ])
 def test__sigmoid(x, xpcd_y, xpcd_derivative):
-    assert 'sigmoid' in activation._ACTIVATION_DICT
+    assert 'sigmoid' in activations._ACTIVATION_DICT
 
-    y = activation._sigmoid(x)
+    y = activations._sigmoid(x)
     assert np.allclose(xpcd_y, y)
 
-    derivative = activation._sigmoid(x, derivative=True)
+    derivative = activations._sigmoid(x, derivative=True)
     assert np.allclose(xpcd_derivative, derivative)
 
 
@@ -87,12 +87,12 @@ def test__sigmoid(x, xpcd_y, xpcd_derivative):
     ),
 ])
 def test__softplus(x, xpcd_y, xpcd_derivative):
-    assert 'softplus' in activation._ACTIVATION_DICT
+    assert 'softplus' in activations._ACTIVATION_DICT
 
-    y = activation._softplus(x)
+    y = activations._softplus(x)
     assert np.allclose(xpcd_y, y)
 
-    derivative = activation._softplus(x, derivative=True)
+    derivative = activations._softplus(x, derivative=True)
     assert np.allclose(xpcd_derivative, derivative)
 
 
@@ -110,10 +110,10 @@ def test__softplus(x, xpcd_y, xpcd_derivative):
     ),
 ])
 def test__tanh(x, xpcd_y, xpcd_derivative):
-    assert 'tanh' in activation._ACTIVATION_DICT
+    assert 'tanh' in activations._ACTIVATION_DICT
 
-    y = activation._tanh(x)
+    y = activations._tanh(x)
     assert np.allclose(xpcd_y, y)
 
-    derivative = activation._tanh(x, derivative=True)
+    derivative = activations._tanh(x, derivative=True)
     assert np.allclose(xpcd_derivative, derivative)

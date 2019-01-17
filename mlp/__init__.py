@@ -2,9 +2,9 @@
 
 """
 
-from . import activation
+from . import activations
 from . import data
-from . import example
+from . import examples
 from . import metrics
 from . import multilayer_perceptron
 from . import utils

@@ -33,7 +33,7 @@ optional arguments:
 
 To print this manual:
 ```
-python -m mlp.example.iris -h
+python -m mlp.examples.iris -h
 ```
 
 ### MNIST
@@ -51,7 +51,7 @@ optional arguments:
 
 To print this manual:
 ```
-python -m mlp.example.mnist -h
+python -m mlp.examples.mnist -h
 ```
 
 ## Development
@@ -67,15 +67,15 @@ Commit messages are structured in accordance with:
 ### Code analysis
 Code analysis is performed with [Pylint](https://www.pylint.org/). To run it type:
 ```
-pylint mlp/
+pylint mlp
 ```
 Types are checked with [mypy](http://mypy-lang.org/). To run it type:
 ```
-mypy mlp/ --ignore-missing-imports
+mypy mlp --ignore-missing-imports
 ```
 
 ### Tests
 Test are ran with [pytest](https://docs.pytest.org/en/latest/). To run them type:
 ```
-pytest --cov mlp/
+pytest --cov mlp
 ```
