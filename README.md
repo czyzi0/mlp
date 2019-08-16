@@ -56,21 +56,14 @@ python -m mlp.examples.mnist -h
 
 ## Development
 
-### Guide
-[This](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html) convention is followed for documenting with exception for type hints (for documenting those [PEP 484](https://www.python.org/dev/peps/pep-0484/) is followed).
-
-Commit messages are structured in accordance with:
-- Write the summary line and description in the imperative mode. Start the line with "Fix", "Add", "Change" instead of "Fixed", "Added", "Changed".
-- Always leave the second line blank.
-- Don't end the summary with a period.
+### Style guide
+- Docstring are written according to [Google Style](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html) with exception for type hints (for those [PEP 484](https://www.python.org/dev/peps/pep-0484/) is followed).
+- Commit messages are written according to [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/).
 
 ### Code analysis
-Code analysis is performed with [Pylint](https://www.pylint.org/). To run it type:
+Code analysis is performed with [Pylint](https://www.pylint.org/) and types are checked with [mypy](http://mypy-lang.org/). To run it type:
 ```
 pylint mlp
-```
-Types are checked with [mypy](http://mypy-lang.org/). To run it type:
-```
 mypy mlp --ignore-missing-imports
 ```
 
