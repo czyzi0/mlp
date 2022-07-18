@@ -114,31 +114,28 @@ class MultilayerPerceptron:
         # Check if metrics is available
         if metrics not in _METRICS_DICT:
             raise ValueError(f'{metrics} is not available')
-        # Check if validation data provided
-        validate = val_x is not None and val_y is not None
         # Validate data
         self._validate_x(train_x)
         self._validate_y(train_y)
-        if validate:
+        if val_x is not None and val_y is not None:
             self._validate_x(val_x)
             self._validate_y(val_y)
         # Print training summary
         if verbose:
             print(f'Train on {len(train_x)} samples', end='')
-            if validate and val_x is not None:    # check to suppress mypy error
+            if val_x is not None and val_y is not None:
                 print(f' - Validate on {len(val_x)} samples')
             else:
                 print()
         # Calculate base scores
         train_score, compare_score = _METRICS_DICT[metrics](self.predict(train_x), train_y)
-        if validate:
+        if val_x is not None and val_y is not None:
             val_score, compare_score = _METRICS_DICT[metrics](self.predict(val_x), val_y)
         # Save best model and score
         if early_stopping:
             best_score = compare_score
-            best_model = {
-                'activations': deepcopy(self._activations),
-                'layers': deepcopy(self._layers)}
+            best_activations = deepcopy(self._activations)
+            best_layers = deepcopy(self._layers)
 
         deltas = [np.zeros_like(layer) for layer in self._layers]
         for epoch_i in range(epochs):
@@ -179,21 +176,20 @@ class MultilayerPerceptron:
 
             # Calculate scores
             train_score, compare_score = _METRICS_DICT[metrics](self.predict(train_x), train_y)
-            if validate:
+            if val_x is not None and val_y is not None:
                 val_score, compare_score = _METRICS_DICT[metrics](self.predict(val_x), val_y)
             # Save best model and score
             was_better = False
             if early_stopping and compare_score >= best_score:
                 was_better = True
                 best_score = compare_score
-                best_model = {
-                    'activations': deepcopy(self._activations),
-                    'layers': deepcopy(self._layers)}
+                best_activations = deepcopy(self._activations)
+                best_layers = deepcopy(self._layers)
             # Print epoch summary
             if verbose:
                 duration = time.time() - start_time
                 # Print results
-                if validate:
+                if val_x is not None and val_y is not None:
                     print(
                         f'duration: {duration:.2f}s - train_{metrics}: {train_score:.4f} '
                         f'- val_{metrics}: {val_score:.4f}',
@@ -207,8 +203,8 @@ class MultilayerPerceptron:
 
         # Restore best model
         if early_stopping:
-            self._activations = best_model['activations']
-            self._layers = best_model['layers']
+            self._activations = best_activations
+            self._layers = best_layers
 
     def save(self, file_path: pathlib.Path) -> None:
         """Saves model to file.
@@ -220,7 +216,7 @@ class MultilayerPerceptron:
         model = {
             'activations': self._activations,
             'layers': [layer.tolist() for layer in self._layers]}
-        with open(pathlib.Path(file_path), 'w') as model_file:
+        with open(pathlib.Path(file_path), 'w', encoding='utf-8') as model_file:
             json.dump(model, model_file, indent=4, sort_keys=True)
 
     @staticmethod
@@ -231,7 +227,7 @@ class MultilayerPerceptron:
             file_path: Path to model file.
 
         """
-        with open(pathlib.Path(file_path), 'r') as model_file:
+        with open(pathlib.Path(file_path), 'r', encoding='utf-8') as model_file:
             model = json.loads(model_file.read())
             multilayer_perceptron = MultilayerPerceptron(inputs=1, units=[1,])
             multilayer_perceptron._activations = model['activations']

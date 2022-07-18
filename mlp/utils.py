@@ -54,7 +54,7 @@ def unison_shuffle(array1: np.ndarray, array2: np.ndarray) -> Tuple[np.ndarray, 
 
     """
     if array1.shape[0] != array2.shape[0]:
-        raise ValueError(f'lengths of array1 and array2 are different')
+        raise ValueError('lengths of array1 and array2 are different')
     permutation = np.random.permutation(len(array1))
     return array1[permutation], array2[permutation]
 
