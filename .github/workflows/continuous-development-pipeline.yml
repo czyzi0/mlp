@@ -104,3 +104,36 @@ jobs:
 
       - name: Comment coverage in PR
         uses: coroo/pytest-coverage-commentator@v1.0.2
+
+  examples:
+    name: Examples
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+
+      - name: Set up environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          installer-url: https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh
+          environment-file: environment.yml
+
+      - name: Install package
+        shell: bash -l {0}
+        run: |
+          conda activate test
+          python setup.py develop
+
+      - name: Run Iris example
+        shell: bash -l {0}
+        run: |
+          conda activate test
+          python -m mlp.examples.iris -o model-iris
+
+      - name: Run MNIST example
+        shell: bash -l {0}
+        run: |
+          conda activate test
+          python -m mlp.examples.mnist -o model-mnist
