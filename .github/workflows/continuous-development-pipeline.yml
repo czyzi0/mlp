@@ -18,6 +18,7 @@ jobs:
           installer-url: https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh
           activate-enironment: mlp
           environment-file: environment.yml
+          auto-activate-base: false
 
       - name: Print conda info
         shell: bash -l {0}
